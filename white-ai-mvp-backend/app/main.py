@@ -7,11 +7,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from app.payments import router as billing_router
+
 app = FastAPI(
     title="WHITE AI MVP",
     description="Early starter API for WHITE AI. Not production-ready.",
-    version="0.1.0",
+    version="0.2.0",
 )
+app.include_router(billing_router)
 
 # Allow the deployed Wix frontend. Add any additional exact origins deliberately.
 app.add_middleware(
@@ -19,7 +22,7 @@ app.add_middleware(
     allow_origins=["https://headless-hfhmpyxgvvh-ankitbamniya3i5-140f.wix-site-host.com"],
     allow_credentials=False,
     allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "X-Razorpay-Signature"],
 )
 
 # Temporary RAM-only sessions. All sessions disappear when the server restarts.
@@ -52,7 +55,7 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "project": "WHITE AI MVP", "version": "0.1.0"}
+    return {"status": "ok", "project": "WHITE AI MVP", "version": "0.2.0"}
 
 
 @app.get("/api-status")
