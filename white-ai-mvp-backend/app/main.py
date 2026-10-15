@@ -4,12 +4,22 @@ from typing import Dict, List
 
 import httpx
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 app = FastAPI(
     title="WHITE AI MVP",
     description="Early starter API for WHITE AI. Not production-ready.",
     version="0.1.0",
+)
+
+# Allow the deployed Wix frontend. Add any additional exact origins deliberately.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://headless-hfhmpyxgvvh-ankitbamniya3i5-140f.wix-site-host.com"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
 
 # Temporary RAM-only sessions. All sessions disappear when the server restarts.
