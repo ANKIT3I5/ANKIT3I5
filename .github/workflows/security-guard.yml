@@ -22,7 +22,7 @@ jobs:
       - name: Gitleaks secret scan
         uses: gitleaks/gitleaks-action@v2
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   python-security:
     name: Python dependency and code security checks
