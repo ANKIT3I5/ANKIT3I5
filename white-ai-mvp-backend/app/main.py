@@ -113,12 +113,39 @@ async def chat(body: ChatRequest):
                 status_code=502,
                 detail=f"AI provider returned HTTP {response.status_code}. Check model, key, and quota.",
             )
-        data = response.json()
-        parts = data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
-        reply = "\n".join(p.get("text", "") for p in parts if p.get("text"))
+        try:
+            data = response.json()
+        except ValueError:
+            history.pop()
+            raise HTTPException(
+                status_code=502,
+                detail="AI provider returned an invalid response. Please try again.",
+            )
+
+        candidates = data.get("candidates", []) if isinstance(data, dict) else []
+        first_candidate = candidates[0] if isinstance(candidates, list) and candidates else {}
+        candidate_content = (
+            first_candidate.get("content", {})
+            if isinstance(first_candidate, dict)
+            else {}
+        )
+        parts = (
+            candidate_content.get("parts", [])
+            if isinstance(candidate_content, dict)
+            else []
+        )
+        reply = (
+            "\\n".join(
+                part.get("text", "")
+                for part in parts
+                if isinstance(part, dict) and part.get("text")
+            )
+            if isinstance(parts, list)
+            else ""
+        )
         if not reply:
             history.pop()
-            raise HTTPException(status_code=502, detail="AI provider returned no text.")
+            raise HTTPException(status_code=502, detail="AI provider returned no usable text.")
         history.append({"role": "model", "parts": [{"text": reply}]})
         sessions[session_id] = history[-12:]
         return ChatResponse(

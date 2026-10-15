@@ -1,0 +1,70 @@
+name: Bug report
+description: Report a reproducible WHITE AI app, API, or CI problem
+title: "[BUG] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Never include API keys, passwords, tokens, personal data, or private user conversations.
+        Attach only sanitized logs and screenshots.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Android app
+        - Backend API / chat
+        - Payments / webhook
+        - GitHub Actions / ALL CHECK
+        - DNS module
+        - RF simulation
+        - VPN module
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the actual behavior.
+      placeholder: The chat screen shows...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open...
+        2. Send...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized error logs
+      description: Remove secrets, tokens, personal data, and private URLs before posting.
+      render: text
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA or workflow run URL
+      description: Include the exact commit or GitHub Actions run, if available.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety checks
+      options:
+        - label: I removed secrets and personal data from this report.
+          required: true
+        - label: I included reproducible steps or explained why I cannot reproduce it.
+          required: true

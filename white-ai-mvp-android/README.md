@@ -1,5 +1,7 @@
 # WHITE AI Android Client (starter)
 
+**DNS/VPN/API setup guide:** see [NETWORK_SETUP.md](./NETWORK_SETUP.md). The current app does not implement a custom VPN tunnel; configure device Private DNS separately and use a real VPN provider until a native VPN client and server are provisioned.
+
 Hindi-first Expo / React Native client for the WHITE AI MVP. This folder is **not a native Java Android project**. It is the existing React Native app, chosen to reuse the current code and reduce setup work.
 
 ## What works in the starter
@@ -45,7 +47,7 @@ Use a physical Android phone with Expo Go rather than an Android Emulator. An em
    ```
 
 ## Expo SDK compatibility note
-This starter currently pins Expo SDK 52 with React Native 0.76.5. Newer Expo Go releases may no longer support SDK 52. If Expo Go reports an SDK mismatch, follow the official SDK upgrade guide at https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/ and upgrade one SDK version at a time; do not randomly change package versions. Run `npm run doctor` after dependency changes.
+This security-audit branch currently targets Expo SDK 57 with React Native 0.86.3. Check Expo Go compatibility for the SDK installed on your phone. If Expo Go reports an SDK mismatch, follow the official SDK upgrade guide at https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/ and run `npx expo-doctor` after dependency changes.
 
 ## Configure the backend
 Edit `src/config.js` and replace `https://YOUR-BACKEND-URL-HERE` with the public HTTPS URL of your deployed FastAPI backend, without a trailing slash. Example format only: `https://your-service.example.com`.
