@@ -65,5 +65,14 @@ jobs:
           cache-dependency-path: white-ai-mvp-android/package.json
       - name: Install JavaScript dependencies
         run: npm install --no-audit --no-fund
+      - name: Diagnose flagged Android dependency paths
+        if: always()
+        run: |
+          echo "Resolved direct/transitive versions:"
+          npm ls braces node-forge --all || true
+          echo "Why braces is installed:"
+          npm explain braces || true
+          echo "Why node-forge is installed:"
+          npm explain node-forge || true
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
