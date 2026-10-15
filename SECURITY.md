@@ -27,6 +27,12 @@ Please do not publish exploit details or secrets in a public issue. Use GitHub's
 - If a credential is exposed, revoke/rotate it at the provider first, inspect its usage, remove it from current code, and follow GitHub's sensitive-data removal guidance for history cleanup.
 - Do not log raw secrets, authorization headers, payment payloads containing sensitive data, or private user messages unnecessarily.
 
+## Known Android dependency audit blocker
+- The Android audit currently fails on braces (GHSA-vfj7-8cjw-p6xm) and node-forge (GHSA-86w9-cpqp-85rv), both reported as high severity in the current dependency tree.
+- As of 2026-10-15, the GitHub Advisory Database lists no patched version for either advisory: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm and https://github.com/advisories/GHSA-86w9-cpqp-85rv.
+- Do not use npm audit fix --force, downgrade Expo to satisfy the audit, or suppress the findings. Review the resolved dependency tree and usage, then choose a supported upstream fix when available. Any temporary risk exception must be explicitly approved, scoped, time-limited, and documented; it is not a security fix.
+- The Android workflow prints npm ls and npm explain diagnostics to help identify the exact dependency paths. The audit is intentionally still a blocking check until the findings are resolved or formally risk-accepted.
+
 ## Current limitations
 - This MVP does not yet have production-grade authentication, persistent storage, automated key rotation, alerting, or full request rate limiting.
 - Payment routes are scaffolding, not production payment infrastructure.
