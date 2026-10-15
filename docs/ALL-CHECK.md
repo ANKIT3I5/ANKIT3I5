@@ -10,7 +10,7 @@ The `.github/workflows/all-check.yml` workflow runs on pushes, pull requests to 
 - Python source compilation
 - Python dependency audit with `pip-audit`
 - Python static security scan with Bandit
-- Python tests, if test files exist; if none exist, the workflow reports that test coverage is not configured
+- Backend regression tests in `white-ai-mvp-backend/tests/test_api.py` (health, API status, demo chat, input limits, and billing configuration); if no test files exist, the workflow warns that coverage is not configured
 - Android production dependency audit with `npm audit --omit=dev --audit-level=high`
 - Expo Doctor diagnostics
 - Required module directory completeness gate
@@ -24,6 +24,16 @@ The workflow reports whether the Android app, backend API, DNS module, RF simula
 A directory being present does not prove that a module works. Add module-specific automated tests as each module is implemented.
 
 RF hardware tests cannot be honestly performed by a normal GitHub-hosted runner. They require compatible physical hardware, an authorized frequency/test setup, and separate hardware test procedures. The workflow does not claim that simulated tests prove real RF connectivity.
+
+## Bug report and safe fix loop
+
+1. Open **Issues → New issue → Bug report** and select the affected component.
+2. Record exact reproduction steps, expected behavior, and sanitized error logs. Never attach API keys, tokens, private conversations, or personal data.
+3. Reproduce the issue in a test before changing behavior whenever practical.
+4. Fix the root cause with the smallest safe change and add/update a regression test.
+5. Open a pull request. The PR template asks for root cause, verification, security review, and rollback notes.
+6. Review the **WHITE AI ALL CHECK** logs. Keep dependency and secret scans blocking. Do not mark a failed scan as passed by suppressing a finding.
+7. If the fix cannot be verified, label it unverified and explain what environment or hardware is missing.
 
 ## Run it
 
