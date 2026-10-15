@@ -110,9 +110,9 @@ jobs:
               label="${entry%%|*}"
               path="${entry#*|}"
               if [ -d "$path" ]; then
-                echo "| $label | `$path/` | PRESENT, needs module-specific tests |"
+                echo "| $label | $path/ | PRESENT, needs module-specific tests |"
               else
-                echo "| $label | `$path/` | NOT FOUND / NOT IMPLEMENTED |"
+                echo "| $label | $path/ | NOT FOUND / NOT IMPLEMENTED |"
               fi
             done
             echo
