@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "WHITE AI",
+    "slug": "white-ai-android-client",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "android": {
+      "package": "com.whiteai.mvp",
+      "versionCode": 1
+    }
+  }
+}
