@@ -2,6 +2,7 @@
 
 These tests validate safe baseline behavior only; they do not certify production readiness.
 """
+import pytest
 from fastapi.testclient import TestClient
 
 from app import main
@@ -10,9 +11,10 @@ from app import main
 client = TestClient(main.app)
 
 
-def setup_function():
+@pytest.fixture(autouse=True)
+def isolate_app_state(monkeypatch):
     main.sessions.clear()
-    main.GEMINI_API_KEY = ""
+    monkeypatch.setattr(main, "GEMINI_API_KEY", "")
 
 
 def test_health_endpoint_reports_ok():
@@ -29,7 +31,7 @@ def test_api_status_does_not_expose_secret():
     assert response.status_code == 200
     body = response.json()
     assert body["ai_configured"] is False
-    assert "key" not in str(body).lower() or "api key" in body.get("note", "").lower()
+    assert "GEMINI_API_KEY" not in str(body)
 
 
 def test_chat_without_provider_key_returns_explicit_demo_response():
