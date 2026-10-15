@@ -126,6 +126,20 @@ jobs:
           path: reports/module-inventory.md
           if-no-files-found: error
           retention-days: 14
+      - name: Enforce planned module completeness (blocking)
+        shell: bash
+        run: |
+          missing=0
+          for path in white-ai-mvp-android white-ai-mvp-backend white-ai-dns white-ai-rf-simulation white-ai-vpn docs; do
+            if [ ! -d "$path" ]; then
+              echo "::error::Required project module directory is missing: $path"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "ALL CHECK is incomplete. Implement or add the missing module directories and their tests; do not bypass this gate."
+            exit 1
+          fi
 
   all-check-summary:
     name: ALL CHECK result
